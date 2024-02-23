@@ -9,13 +9,19 @@ import org.springframework.web.client.RestClient;
 @RestController
 public class GreetingController {
 
-	@Value("${testapi.restclient.uri}")
-	private String restClientBaseUrl;
+	@Value("${testapi.restclient.host}")
+	private String testApiHost;
+
+	@Value("${testapi.restclient.port}")
+	private String testApiPort;
+
+	@Value("${testapi.restclient.protocol}")
+	private String testApiProtocol;
 
 	@GetMapping("/greeting")
 	public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
 		RestClient restClient = RestClient.builder()
-			.baseUrl(restClientBaseUrl)
+			.baseUrl(testApiProtocol + "://" + testApiHost + ":" + testApiPort)
 			.build();
 
         return restClient.get()
